@@ -11,6 +11,7 @@ class ListNode:
         self.val = x
         self.next = None
 
+
 class Solution:
     def mergeTwoLists(self, l1, l2):
         """
@@ -41,3 +42,19 @@ class Solution:
                 point.next = l2
                 l2 = l2.next
         return result.next
+
+
+        # best solution
+        # res = dummy = ListNode(0)
+
+        # while l1 and l2:
+        #     if l1.val < l2.val:
+        #         res.next = l1
+        #         l1 = l1.next
+        #     else:
+        #         res.next = l2
+        #         l2 = l2.next
+        #     res = res.next
+
+        # res.next = l1 or l2
+        # return dummy.next
