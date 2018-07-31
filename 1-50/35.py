@@ -18,6 +18,8 @@
 #
 # Input: [1,3,5,6], 0
 # Output: 0
+import bisect
+
 
 class Solution:
     def searchInsert(self, nums, target):
@@ -65,6 +67,9 @@ class Solution:
                     j = mid
                 else:
                     i = mid + 1
+
+        # equal to bisect.bisect_left()
+        # return bisect.bisect_left(nums, target)
 
 
 s = Solution()
