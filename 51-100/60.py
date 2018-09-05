@@ -1,50 +1,49 @@
-# A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
+# The set [1,2,3,...,n] contains a total of n! unique permutations.
 #
-# The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
+# By listing and labeling all of the permutations in order, we get the following sequence for n = 3:
 #
-# How many possible unique paths are there?
+# "123"
+# "132"
+# "213"
+# "231"
+# "312"
+# "321"
+# Given n and k, return the kth permutation sequence.
 #
+# Note:
 #
-# Above is a 7 x 3 grid. How many possible unique paths are there?
-#
-# Note: m and n will be at most 100.
-#
+# Given n will be between 1 and 9 inclusive.
+# Given k will be between 1 and n! inclusive.
 # Example 1:
 #
-# Input: m = 3, n = 2
-# Output: 3
-# Explanation:
-# From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:
-# 1. Right -> Right -> Down
-# 2. Right -> Down -> Right
-# 3. Down -> Right -> Right
+# Input: n = 3, k = 3
+# Output: "213"
 # Example 2:
 #
-# Input: m = 7, n = 3
-# Output: 28
-import math
+# Input: n = 4, k = 9
+# Output: "2314"
 
-
-class Solution(object):
-    def uniquePaths(self, m, n):
+class Solution:
+    def getPermutation(self, n, k):
         """
-        :type m: int
         :type n: int
-        :rtype: int
+        :type k: int
+        :rtype: str
         """
-        # math solution
-        # return int(math.factorial(m + n - 2) / (math.factorial(n - 1) * math.factorial(m - 1)))
-        # dp solution
-        dp = [[1] * m for _ in range(n)]
-        for idx in range(n):
-            for idy in range(m):
-                if idx == 0:
-                    dp[idx][idy] = dp[idx][idy - 1]
-                elif idy == 0:
-                    dp[idx][idy] = dp[idx - 1][idy]
-                else:
-                    dp[idx][idy] = dp[idx - 1][idy] + dp[idx][idy - 1]
-        return dp[n-1][m-1]
+        nums = range(1, n + 1)
+        res = []
+        self.helper(nums, '', 0, res)
+        return res[k]
 
-s=Solution()
-print(s.uniquePaths(3,2))
+    def helper(self, nums, permutation, start, res):
+        if len(permutation) == len(nums):
+            res.append(permutation)
+            return
+        used = set()
+        for x in range(start,len(nums)):
+            if nums[x] not in used:
+                used.add(nums[x])
+            else:
+                continue
+            
+

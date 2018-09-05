@@ -16,11 +16,12 @@
 # ]
 
 # Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+class TreeNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 
 class Solution(object):
     def pathSum(self, root, sum):
@@ -31,19 +32,34 @@ class Solution(object):
         """
         if not root:
             return []
+        res = []
+        self.helper(root, sum, [], res)
+        return res
 
-    def path(self,root,sum,stack,res):
-        
-        if not root.left and not root.right:  # is a leaf
-            if root.val == sum:
-                res.append(stack.copy())
-            stack.pop()
-        elif not root.left:  # left is empty
-            sum -= root.val
-            return self.hasPath(root.right, sum)
-        elif not root.right:  # right is empty
-            sum -= root.val
-            return self.hasPath(root.left, sum)
+    def helper(self, root, target, adds, res):
+        if root and target == root.val and not root.left and not root.right:
+            res.append(adds+[root.val])
+            return
+        elif not root:
+            return
         else:
-            sum -= root.val
-            return self.hasPath(root.left, sum) or self.hasPath(root.right, sum)
+            if root:
+                self.helper(root.left, target - root.val, adds + [root.val], res)
+                self.helper(root.right, target - root.val, adds + [root.val], res)
+
+root = TreeNode(5)
+root.left=TreeNode(4)
+root.right=TreeNode(8)
+root.left.left=TreeNode(11)
+root.left.left.left=TreeNode(7)
+root.left.left.right=TreeNode(2)
+root.right.left=TreeNode(13)
+root.right.right=TreeNode(4)
+root.right.right.left=TreeNode(5)
+root.right.right.right=TreeNode(1)
+
+# root = TreeNode(-2)
+# root.left=TreeNode(-3)
+
+s=Solution()
+print(s.pathSum(root,22))

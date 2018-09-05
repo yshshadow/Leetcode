@@ -14,8 +14,24 @@ class Solution:
         :type n: int
         :rtype: void Do not return anything, modify nums1 in-place instead.
         """
-        for x in range(m):
-            a = nums1[x]
-            for y in range(n):
-                b = nums2[y]
-                a
+        nums1[m: m + n] = nums2  # copy nums2 into nums1
+        slow, fast = 0, m
+        if m == 0 or n == 0:
+            return
+        while fast < m + n:
+            if nums1[slow] > nums1[fast]:
+                temp = nums1[slow]
+                nums1[slow] = nums1[fast]
+                nums1[fast] = temp
+            slow += 1
+            if slow == fast:
+                fast += 1
+
+
+s = Solution()
+nums1 = [4,5,6,0,0,0]
+m = 3
+nums2 = [1,2,3]
+n = 3
+s.merge(nums1, m, nums2, n)
+print(nums1)
