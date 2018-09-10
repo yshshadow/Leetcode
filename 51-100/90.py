@@ -35,5 +35,24 @@ class Solution:
                 continue
             self.helper(nums, i + 1, sub + [nums[i]], res)
 
-s=Solution()
-print(s.subsetsWithDup([1,1,2,2,2]))
+    def subsetsWithDup2(self,nums):
+        if not nums or len(nums) == 0:
+            return []
+        res = []
+        nums.sort()
+        self.dfs(nums, 0, [], res)
+        return res
+
+    def dfs(self, nums, index, path, res):
+        res.append(path)
+        dup = set()
+        for i in range(index, len(nums)):
+            if nums[i] not in dup:
+                dup.add(nums[i])
+            else:
+                continue
+            self.dfs(nums, i + 1, path + [nums[i]], res)
+
+
+s = Solution()
+print(s.subsetsWithDup2([1, 2, 2]))

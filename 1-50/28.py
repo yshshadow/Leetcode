@@ -25,58 +25,48 @@ class Solution(object):
         :rtype: int
         """
         # brute force TLE
-        # if needle == '':
-        #     return 0
-        # if haystack == '':
+        # if not haystack or not needle:
         #     return -1
-        # res = -1
-        # for idx, char in enumerate(haystack):
-        #     if needle[0] == char:
-        #         res = idx
-        #         for idy in range(1, len(needle)):
-        #             if idx + idy < len(haystack) and needle[idy] != haystack[idx + idy]:
-        #                 res = -1
-        #                 break
-        #             elif idx + idy >= len(haystack):
-        #                 res = -1
-        #                 break
-        #         if res != -1:
-        #             return res
-        # return res
+        # for i in range(0, len(haystack) - len(needle)):
+        #     for j in range(0, len(needle)):
+        #         if needle[j] == haystack[i + j] and j == len(needle) - 1:
+        #             return i
+        #         if needle[j] != haystack[i + j]:
+        #             break
+        # return -1
 
         # KMP
-        lengthOfHaystack = len(haystack)
-        lengthOfNeedle = len(needle)
-        if lengthOfNeedle == 0:
+        if not haystack:
+            return -1
+        if not needle:
             return 0
-        if lengthOfNeedle > lengthOfHaystack:
+        nex = self.getNext(needle)
+        i, j = 0, 0
+        while i < len(haystack) and j < len(needle):
+            if j == -1 or needle[j] == haystack[i]:
+                j += 1
+                i += 1
+            else:
+                j = nex[j]
+        if j == len(needle):
+            return i - j
+        else:
             return -1
 
-        def getNext(needle):
-            length = len(needle)
-            nex = [0] * length
-            nex[0] = -1
-            j = -1
-            for idx in range(length):
-                if j == -1 or needle[idx] == needle[j]:
-                    nex[idx] = j
-                    j += 1
-                else:
-                    j = nex[j]
-            return nex
-
-        nex = getNext(needle)
-        j = -1
-        for i, char in enumerate(haystack):
-            while j >= 0 and char != needle[j + 1]:
-                j = nex[j]
-            if char == needle[j + 1]:
+    def getNext(self, needle):
+        nex = [0] * len(needle)
+        nex[0] = -1
+        i, j = 0, -1
+        while i < len(needle) - 1:
+            if j == -1 or needle[i] == needle[j]:
                 j += 1
-            if j == lengthOfNeedle - 1:
-                return i - lengthOfNeedle + 1
-        return -1
+                i += 1
+                nex[i] = j
+            else:
+                j = nex[j]
+        return nex
 
 
 s = Solution()
-print(s.strStr("mississippi",
-               "issi"))
+print(s.strStr("BBC ABCDAB ABCDABCDABDE",
+               ""))

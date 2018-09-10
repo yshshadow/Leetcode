@@ -9,6 +9,7 @@ class RandomListNode(object):
         self.next = None
         self.random = None
 
+
 class Solution(object):
     def copyRandomList(self, head):
         """
@@ -19,5 +20,16 @@ class Solution(object):
             return None
         table = {}
         dummy = RandomListNode(-1)
-        while head:
-            node = RandomListNode(head.label)
+        pre, cur = dummy, head
+        while cur:
+            node = RandomListNode(cur.label)
+            table[cur] = node
+            cur = cur.next
+            pre.next = node
+            pre = pre.next
+        pre, cur = dummy.next, head
+        while pre and cur:
+            pre.random = table[cur]
+            pre = pre.next
+            cur = cur.next
+        return dummy.next
