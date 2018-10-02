@@ -32,19 +32,20 @@ class Solution:
             mid = (start + end) // 2
             if nums[mid] == target:
                 return True
-            elif nums[start] < nums[mid]:  # from start to mid grow
+            elif nums[start] <= nums[mid]:  # from start to mid grow
                 if nums[start] <= target < nums[mid]:
                     end = mid
                 else:
-                    start = mid+1
+                    start = mid + 1
             else:
-                if nums[mid] < target <= nums[end - 1]: # from mid to end grow
-                    start = mid+1
+                if nums[mid] < target <= nums[end - 1]:  # from mid to end grow
+                    start = mid + 1
                 else:
                     end = mid
         return False
 
 
-s=Solution()
-print(s.search([6,7,0,1,2,3,4],0))
-print(s.search([6,7,0,1,2,3,4],6))
+s = Solution()
+print(s.search([1,3,1,1], 3))
+print(s.search([2, 5, 6, 0, 0, 1, 2], 3))
+print(s.search([2, 5, 6, 0, 0, 1, 2], 0))

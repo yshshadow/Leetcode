@@ -12,11 +12,21 @@ class Solution:
         :rtype: List[str]
         """
         res = []
-        self.restore(s,0,'',res)
+        self.restore(s, [], res)
         return res
 
-    def restore(self, s, level, pre, res):
-        if len(pre) == len(s) + 4:
-            res.append(pre)
+    def restore(self, s, path, res):
+        if len(path) > 4:
             return
-        
+        if len(path) == 4:
+            if s == '':
+                res.append('.'.join(path))
+            return
+        for i in range(min(3, len(s))):
+            if int(s[:i + 1]) <= 255:
+                if i == 0 or s[0] != '0':
+                    self.restore(s[i + 1:], path + [s[:i + 1]], res)
+
+
+s = Solution()
+print(s.restoreIpAddresses("0000"))

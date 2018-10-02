@@ -20,23 +20,12 @@ class Solution:
         :type nums2: List[int]
         :rtype: float
         """
-        len = len(nums1) + len(nums2) - 1
-        index = (int)(len / 2)
-        isOdd = len % 2 == 0
-        i, j = 0
-        times = 0
-        while i < len(nums1) or j < len(nums2):
-            if i >= len(nums1):
-                j += 1
-            elif j >= len(nums2):
-                i += 1
-            else:
-                if nums1[i] <= nums2[j]:
-                    i += 1
-                else:
-                    j += 1
-            times += 1
-            if times == index:
-                break
-        if isOdd:
-            return
+        length = len(nums1) + len(nums2)
+        target1, target2 = -1, -1
+        if length % 2 == 0:
+            target1 = length / 2 - 1
+            target2 = target1 + 1
+        else:
+            target1 = length // 2
+        i,j=0,0
+        # while i
