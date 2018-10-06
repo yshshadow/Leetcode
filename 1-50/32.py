@@ -22,8 +22,8 @@ class Solution(object):
         res = 0
         for length in range(2, len(s) + 1):
             for idx in range(len(s) - length + 1):
-                if s[idx-1]=='(':
-                    dp[length-1][idx] = dp[length-1][idx-2]+2
+                if s[idx - 1] == '(':
+                    dp[length - 1][idx] = dp[length - 1][idx - 2] + 2
                     res = max(res, length)
         return res
 

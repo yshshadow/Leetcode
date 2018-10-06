@@ -28,32 +28,40 @@ class Solution(object):
         :type k: int
         :rtype: ListNode
         """
-        start, end, tmp = head, None, head
-        idx = k
-        while idx:
-            end = tmp.next
-            tmp = end
-            if not end:
-                break
-            idx -= 1
-        if idx > 0:
+        if not head or k <= 1:
             return head
-        else:
-            self.reverseList(start, end)
+        dummy = ListNode(-1)
+        dummy.next = head
+        nHead, pHead, pEnd = dummy.next, dummy.next, dummy.next.next
+        pre = dummy
+        while pEnd:
+            t, v = pEnd, k - 2
+            while t.next and v > 0:
+                t = t.next
+                v -= 1
+            if v > 0:
+                return dummy.next
+            steps = k - 1
+            while steps > 0 and pEnd:
+                nex = pEnd.next
+                pEnd.next = pHead
+                nHead.next = nex
+                pHead = pEnd
+                pEnd = nex
+                steps -= 1
+            pre.next = pHead
+            pre = nHead
+            nHead = pEnd
+            pHead = pEnd
+            if pHead:
+                pEnd = pHead.next
+        return dummy.next
 
-    def reverseList(self, start, end):
-        """
-        :type start: ListNode
-        :rtype: ListNode
-        """
-        if not start:
-            return None
-        if not start.next:
-            return start
-        cur, pre = None, None
-        while start != end.next:
-            pre = cur
-            cur = start
-            start = start.next
-            cur.next = pre
-        return cur
+
+head = ListNode(1)
+head.next = ListNode(2)
+head.next.next = ListNode(3)
+head.next.next.next = ListNode(4)
+head.next.next.next.next = ListNode(5)
+s = Solution()
+s.reverseKGroup(head, 3)
