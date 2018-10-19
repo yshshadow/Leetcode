@@ -28,21 +28,34 @@ class Solution(object):
         """
         if not nums1 or not nums2 or len(nums1) == 0 or len(nums2) == 0:
             return []
-        dict1 = {}
-        # dict2 = {}
-        for num in nums1:
-            if num not in dict1:
-                dict1[num] = 1
-            else:
-                dict1[num] += 1
-        # for num in nums2:
+        # use hashmap
+        # dict1 = {}
+        # # dict2 = {}
+        # for num in nums1:
         #     if num not in dict1:
         #         dict1[num] = 1
         #     else:
         #         dict1[num] += 1
+        # res = []
+        # for num in nums2:
+        #     if num in dict1 and dict1[num] > 0:
+        #         res.append(num)
+        #         dict1[num] -= 1
+        # return res
+
+        # use sort, better when two array size is not similar or one array store in the disk
+        nums1.sort()
+        nums2.sort()
         res = []
-        for num in nums2:
-            if num in dict1 and dict1[num] > 0:
-                res.append(num)
-                dict1[num] -= 1
+        i, j = 0, 0
+        while i < len(nums1) and j < len(nums2):
+            if nums1[i] == nums2[j]:
+                # if (i == 0 or nums1[i] != nums1[i - 1]) and (j == 0 or nums2[j] != nums2[j - 1]):
+                #     res.append(nums1[i])
+                i += 1
+                j += 1
+            elif nums1[i] > nums2[j]:
+                j += 1
+            elif nums1[i] < nums2[j]:
+                i += 1
         return res

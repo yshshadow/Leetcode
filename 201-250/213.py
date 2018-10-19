@@ -21,5 +21,21 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        dp=[0]*len(nums)
-        dp[0]
+        # nums[1] and nums[n] is adjacent, solve problem rob 1 to n-1 and rob 2 to n
+        if len(nums) == 0:
+            return 0
+        if len(nums) <= 2:
+            return max(nums)
+        rob1 = self.helper(nums, 0)
+        rob2 = self.helper(nums, 1)
+        return max(rob1, rob2)
+
+    def helper(self, nums, start):
+        r1, r2 = nums[start], max(nums[start + 1], nums[start])
+        for i in range(start + 2, start + len(nums) - 2 + 1):
+            r2, r1 = max(r1 + nums[i], r2), r2
+        return r2
+
+
+s = Solution()
+print(s.rob([1, 3, 1, 3, 100]))

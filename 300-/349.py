@@ -25,11 +25,27 @@ class Solution(object):
         if not nums1 or not nums2 or len(nums1) == 0 or len(nums2) == 0:
             return []
         # hashmap
-        set1 = set(nums1)
-        set2 = set(nums2)
-        res = []
-        for num in set1:
-            if num in set2:
-                res.append(num)
-        return res
+        # set1 = set(nums1)
+        # set2 = set(nums2)
+        # res = []
+        # for num in set1:
+        #     if num in set2:
+        #         res.append(num)
+        # return res
 
+        # sort
+        nums1.sort()
+        nums2.sort()
+        res = []
+        i, j = 0, 0
+        while i < len(nums1) and j < len(nums2):
+            if nums1[i] == nums2[j]:
+                if (i == 0 or nums1[i] != nums1[i - 1]) and (j == 0 or nums2[j] != nums2[j - 1]):
+                    res.append(nums1[i])
+                i += 1
+                j += 1
+            elif nums1[i] > nums2[j]:
+                j += 1
+            elif nums1[i] < nums2[j]:
+                i += 1
+        return res

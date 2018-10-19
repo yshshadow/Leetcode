@@ -18,15 +18,15 @@ class Solution(object):
         :rtype: int
         """
         # initialize
-        dp = [[0] * len(s) for _ in range(len(s))]
-        res = 0
-        for length in range(2, len(s) + 1):
-            for idx in range(len(s) - length + 1):
-                if s[idx - 1] == '(':
-                    dp[length - 1][idx] = dp[length - 1][idx - 2] + 2
-                    res = max(res, length)
-        return res
+        dp = [0 for _ in range(len(s))]
+        for i in range(1, len(s)):
+            if s[i] == ')' and s[i - 1] == '(':
+                dp[i] = (dp[i - 2] if i >= 2 else 0) + 2
+            elif s[i] == ')' and i - dp[i - 1] - 1 >= 0 and s[i - dp[i - 1] - 1] == '(':
+                dp[i] = dp[i - 1] + (dp[i - dp[i - 1] - 2] if i - dp[i - 1] >= 2 else 0) + 2
+
+        return max(dp)
 
 
 s = Solution()
-print(s.longestValidParentheses("((()())"))
+print(s.longestValidParentheses("(()())"))

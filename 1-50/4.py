@@ -21,11 +21,16 @@ class Solution:
         :rtype: float
         """
         length = len(nums1) + len(nums2)
-        target1, target2 = -1, -1
-        if length % 2 == 0:
-            target1 = length / 2 - 1
-            target2 = target1 + 1
+        target, extra = divmod(length, 2)
+        if extra == 0:
+            a = self.search(nums1, nums2, target)
+            b = self.search(nums1, nums2, target - 1)
+            return (a + b) / 2.0
         else:
-            target1 = length // 2
-        i,j=0,0
-        # while i
+            return self.search(nums1, nums2, target)
+
+    def search(self, nums1, nums2, target):
+        pass
+        # i, j = 0, 0
+        # while i + j <= target:
+
