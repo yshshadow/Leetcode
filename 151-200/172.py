@@ -20,3 +20,9 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
+        # count how many 5 are there in the factors
+        cnt = 0
+        while n > 0:
+            n //= 5
+            cnt += n
+        return cnt

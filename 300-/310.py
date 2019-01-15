@@ -43,18 +43,19 @@ class Solution(object):
         :type edges: List[List[int]]
         :rtype: List[int]
         """
-        graph = [[] for _ in range(n)]
-        queue = collections.deque()
-        depth = [0 for _ in range(n)]
+        g = {i: [] for i in range(n)}
         for edge in edges:
-            graph[edge[0]].append(edge[1])
-        for i in range(n):
-            depth[i]=0
-            self.bfs(graph, i, queue,depth)
+            g[edge[0]].append(edge[1])
+            g[edge[1]].append(edge[0])
+        while len(g) > 2:
+            for node in g:
+                if len(g[node]) == 1:
+                    edge = g[node]
+                    g[edge].remove(node)
+                    del g[node]
+        return [node for node in g]
 
-    def bfs(self, graph, i, queue,depth):
-        queue.append(i)
-        while len(queue) > 0:
-            root = queue.popleft()
-            for node in graph[root]:
-                queue.append(node)
+
+s = Solution()
+print(s.findMinHeightTrees(4,
+                           [[1, 0], [1, 2], [1, 3]]))

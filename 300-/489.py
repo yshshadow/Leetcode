@@ -85,3 +85,50 @@ class Solution:
         :type robot: Robot
         :rtype: None
         """
+
+        def addPos(pos, ori):
+            return (pos[0] + ori[0], pos[1] + ori[1])
+
+        class RobotWrapper(object):
+            def __init__(self, robot):
+                self.robot = robot
+                self.orientation = (0, 1)
+                self.ori = 0
+                self.pos = (0, 0)
+                self.possOrientations = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+
+            def move(self):
+                if self.robot.move():
+                    self.pos = addPos(self.pos, self.orientation)
+                    return True
+                return False
+
+            def turnLeft(self):
+                self.ori = (self.ori + 1) % 4
+                self.orientation = self.possOrientations[self.ori]
+                self.robot.turnLeft()
+
+            def turnRight(self):
+                self.ori = (self.ori - 1) % 4
+                self.orientation = self.possOrientations[self.ori]
+                self.robot.turnRight()
+
+            def clean(self):
+                self.robot.clean()
+
+        def dfs(robot, visited):
+            robot.clean()
+            for i in range(4):
+                robot.turnRight()
+                newPos = addPos(robot.pos, robot.orientation)
+                if newPos not in visited and robot.move():
+                    visited.add(robot.pos)
+                    dfs(robot, visited)
+                    robot.turnLeft()
+                    robot.turnLeft()
+                    robot.move()
+                    robot.turnLeft()
+                    robot.turnLeft()
+
+        robotWrapper = RobotWrapper(robot)
+        dfs(robotWrapper, set([(0, 0)]))

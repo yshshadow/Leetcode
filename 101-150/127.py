@@ -41,31 +41,45 @@ class Solution(object):
         :type wordList: List[str]
         :rtype: int
         """
-        if endWord not in wordList:
+        # visited = set()
+        # wordSet = set(wordList)
+        #
+        # queue = [(beginWord, 1)]
+        #
+        # while len(queue) > 0:
+        #     word, count = queue.pop(0)
+        #     if word == endWord:
+        #         return count
+        #     if word in visited:
+        #         continue
+        #     else:
+        #         visited.add(word)  # mark word as visited
+        #     for i in range(len(word)):
+        #         for j in range(0, 26):  # try all possible one character permutations
+        #             char = ord('a') + j
+        #             changed_word = word[0:i] + chr(char) + word[i + 1:]
+        #             if changed_word in wordSet:  # if permuted word is in word list then add children
+        #                 queue.append((changed_word, count + 1))
+        # return 0  # if queue is exhausted and code reachers here then its impossible to reach endWord
+        if not wordList or endWord not in wordList:
             return 0
-        min_step = 2147483647
-        sequence = collections.deque()
-        sequence.append(beginWord)
-        count = 0
-        while len(sequence) > 0 and len(wordList) > 0:
-            count += 1
-            pre = sequence.popleft()
-            if pre == endWord:
-                min_step = min(count, min_step)
-            for word in wordList:
-                if self.distance(word, pre) == 1 and word not in sequence:
-                    sequence.append(word)
-            if pre in wordList:
-                wordList.remove(pre)
-        return min_step
-
-    def distance(self, str1, str2):
-        count = 0
-        for i in range(len(str1)):
-            if str1[i] != str2[i]:
-                count += 1
-        return count
+        queue = collections.deque()
+        queue.append((beginWord, 1))
+        visited = set()
+        while queue:
+            cur, depth = queue.popleft()
+            if cur == endWord:
+                return depth
+            for i in range(len(cur)):
+                for j in range(26):
+                    word = cur[:i] + chr(ord('a') + j) + cur[i + 1:]
+                    if word in wordList and word not in visited:
+                        visited.add(word)
+                        queue.append((word, depth + 1))
+        return 0
 
 
 s = Solution()
-print(s.ladderLength('hit', 'cog', ["hot", "dot", "dog", "lot", "log", "cog"]))
+print(s.ladderLength("hit",
+                     "cog",
+                     ["hot", "dot", "dog", "lot", "log", "cog"]))

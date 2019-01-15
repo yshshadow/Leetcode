@@ -23,31 +23,33 @@ class Solution:
         """
         dummy = ListNode(-1)
         dummy.next = head
-        start, end = dummy, dummy
-        while m > 1:
-            start = start.next
-            m -= 1
-        while n > 1:
-            end = end.next
-            n -= 1
-        nend = end.next
-        start.next, end = self.reverseList(start.next, end)
-        end.next = nend
+        p = dummy
+        step = m
+        while step > 1:
+            p = p.next
+            step -= 1
+        pre = p
+        # tail = pre.next
+        pre.next, tail, rest = self.reverse(p.next, n - m)
+        tail.next = rest
         return dummy.next
 
-    def reverseList(self, head, end):
-        """
-        :type head: ListNode
-        :rtype: ListNode
-        """
-        if not head:
-            return None
-        if not head.next:
-            return head
-        cur, pre = None, None
-        while head != end:
-            pre = cur
-            cur = head
-            head = head.next
-            cur.next = pre
-        return cur, head
+    def reverse(self, p, remain):
+        if not p:
+            return None, None, None
+        if remain == 0:
+            rest = p.next
+            p.next = None
+            return p, p, rest
+        head, tail, rest = self.reverse(p.next, remain - 1)
+        tail.next = p
+        return head, p, rest
+
+
+s = Solution()
+head = ListNode(1)
+head.next = ListNode(2)
+head.next.next = ListNode(3)
+head.next.next.next = ListNode(4)
+head.next.next.next.next = ListNode(5)
+s.reverseBetween(head, 2, 4)

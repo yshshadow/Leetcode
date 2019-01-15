@@ -13,24 +13,42 @@
 #
 # The median is (2 + 3)/2 = 2.5
 
-class Solution:
+class Solution(object):
     def findMedianSortedArrays(self, nums1, nums2):
         """
         :type nums1: List[int]
         :type nums2: List[int]
         :rtype: float
         """
-        length = len(nums1) + len(nums2)
-        target, extra = divmod(length, 2)
-        if extra == 0:
-            a = self.search(nums1, nums2, target)
-            b = self.search(nums1, nums2, target - 1)
-            return (a + b) / 2.0
-        else:
-            return self.search(nums1, nums2, target)
+        m, n = len(nums1), len(nums2)
+        if m > n:
+            nums1, nums2, m, n = nums2, nums1, n, m
+        imin, imax, half = 0, m, (m + n + 1) // 2
+        while imin <= imax:
+            i = (imin + imax) // 2
+            j = half - i
+            if i < m and nums2[j - 1] > nums1[i]:
+                imin = i + 1
+            elif i > 0 and nums1[i - 1] > nums2[j]:
+                imax = i - 1
+            else:
+                if i == 0:
+                    ml = nums2[j - 1]
+                elif j == 0:
+                    ml = nums1[i - 1]
+                else:
+                    ml = max(nums1[i - 1], nums2[j - 1])
+                if (m + n) % 2 == 1:
+                    return ml
+                if i == m:
+                    mr = nums2[j]
+                elif j == n:
+                    mr = nums1[i]
+                else:
+                    mr = min(nums1[i], nums2[j])
+                return (mr + ml) / 2.0
 
-    def search(self, nums1, nums2, target):
-        pass
-        # i, j = 0, 0
-        # while i + j <= target:
 
+s = Solution()
+print(s.findMedianSortedArrays([1, 5],
+                               [2, 3, 4, 6]))

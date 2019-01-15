@@ -33,3 +33,14 @@ class Solution:
         :type n: int
         :rtype: List[int]
         """
+        if n == 0:
+            return [0]
+        elif n == 1:
+            return [0, 1]
+        else:
+            pre = self.grayCode(n - 1)
+            res = []
+            for i, num in enumerate(pre[::-1]):
+                res.append(num ^ (1 << (n - 1)))
+            pre.extend(res)
+            return pre

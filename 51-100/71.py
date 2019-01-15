@@ -17,6 +17,7 @@ class Solution:
         :type path: str
         :rtype: str
         """
+        # use O(n) space
         if not path or len(path) == 0:
             return ''
         paths = path.split('/')
@@ -28,12 +29,47 @@ class Solution:
                 if len(stack) != 0:
                     stack.pop()
             else:
-                stack.append(p)
+                stack.append('/' + p)
         if len(stack) == 0:
             return '/'
         else:
-            return '/'.join(stack)
+            return ''.join(stack)
+        # use O(1) space
+        # if not path:
+        #     return ''
+        # res = []
+        # i = len(path) - 1
+        # jump = 0
+        # while i > -1:
+        #     if path[i] == '/':
+        #         i -= 1
+        #     elif path[i] == '.':
+        #         j = i
+        #         while j > -1 and path[j] == '.':
+        #             j -= 1
+        #         if i - j == 2:
+        #             i -= 2
+        #             jump += 1
+        #         elif i - j == 1:
+        #             i -= 1
+        #         else:
+        #             if jump > 0:
+        #                 jump -= 1
+        #             else:
+        #                 res.append(path[j + 1:i + 1])
+        #             i = j - 1
+        #     else:
+        #         j = i
+        #         while j > -1 and path[j] != '/':
+        #             j -= 1
+        #         if jump > 0:
+        #             jump -= 1
+        #         else:
+        #             res.append(path[j + 1:i + 1])
+        #         i = j - 1
+        # return '/' + '/'.join(res[::-1]) if len(res) > 0 else '/'
 
-s=Solution()
-print(s.simplifyPath("/home/"))
+
+s = Solution()
+print(s.simplifyPath("/.../"))
 print(s.simplifyPath("/a/./b/../../c/"))

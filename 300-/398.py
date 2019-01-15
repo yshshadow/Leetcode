@@ -40,10 +40,12 @@ class Solution(object):
                 res = i if random.randint(0, total-1) == 0 else res
         return res
 
-a = ''
-a.startswith()
-
-
+s=Solution([1,2,3,1,2,2,3,3]
+)
+print(s.pick(3))
+print(s.pick(3))
+print(s.pick(3))
+print(s.pick(3))
 
 
         # Your Solution object will be instantiated and called as such:

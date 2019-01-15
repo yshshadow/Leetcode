@@ -11,25 +11,52 @@ class RandomListNode(object):
 
 
 class Solution(object):
+    # recursive
+    # def __init__(self):
+    #     self.visited = {}
+    #
+    # def copyRandomList(self, head):
+    #     """
+    #     :type head: RandomListNode
+    #     :rtype: RandomListNode
+    #     """
+    #     if not head:
+    #         return None
+    #     if head in self.visited:
+    #         return self.visited[head]
+    #     node = RandomListNode(head.label)
+    #     self.visited[head] = node
+    #     node.next = self.copyRandomList(head.next)
+    #     node.random = self.copyRandomList(head.random)
+    #     return node
+
     def copyRandomList(self, head):
         """
         :type head: RandomListNode
         :rtype: RandomListNode
         """
+        # iterate
         if not head:
             return None
-        table = {}
-        dummy = RandomListNode(-1)
-        pre, cur = dummy, head
-        while cur:
-            node = RandomListNode(cur.label)
-            table[cur] = node
-            cur = cur.next
-            pre.next = node
-            pre = pre.next
-        pre, cur = dummy.next, head
-        while pre and cur:
-            pre.random = table[cur]
-            pre = pre.next
-            cur = cur.next
-        return dummy.next
+        visited = {}
+        p = head
+        while head:
+            if head in visited:
+                node = visited[head]
+            else:
+                node = RandomListNode(head.label)
+                visited[head] = node
+            if head.random:
+                if head.random in visited:
+                    node.random = visited[head.random]
+                else:
+                    node.random = RandomListNode(head.random.label)
+                    visited[head.random] = node.random
+            if head.next:
+                if head.next in visited:
+                    node.next = visited[head.next]
+                else:
+                    node.next = RandomListNode(head.next.label)
+                    visited[head.next] = node.next
+            head = head.next
+        return visited[p]

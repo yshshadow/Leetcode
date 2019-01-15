@@ -23,34 +23,50 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
-        if len(s) == 0 or s[0] == '0':
+        # if len(s) == 0 or s[0] == '0':
+        #     return 0
+        # if len(s) == 1:
+        #     return 1
+        # dp = [0] * len(s)
+        # dp[0] = 1
+        # if s[1] == '0':
+        #     if '0' < s[0] < '3':
+        #         dp[1] = 1
+        #     else:
+        #         return 0
+        # elif s[0] == '1' or (s[0] == '2' and s[1] < '7'):
+        #     dp[1] = 2
+        # else:
+        #     dp[1] = 1
+        # if len(s) == 2:
+        #     return dp[1]
+        # for idx in range(2, len(s)):
+        #     if s[idx] == '0':
+        #         if s[idx - 1] == '0' or s[idx - 1] > '2':
+        #             return 0
+        #         dp[idx] = dp[idx - 2]
+        #     elif s[idx - 1] == '1' or (s[idx - 1] == '2' and s[idx] < '7'):
+        #         dp[idx] = dp[idx - 1] + dp[idx - 2]
+        #     else:
+        #         dp[idx] = dp[idx - 1]
+        # return dp[len(s) - 1]
+
+        if not s or s[0] == '0':
             return 0
         if len(s) == 1:
             return 1
-        dp = [0] * len(s)
-        dp[0] = 1
-        if s[1] == '0':
-            if '0' < s[0] < '3':
-                dp[1] = 1
-            else:
-                return 0
-        elif s[0] == '1' or (s[0] == '2' and s[1] < '7'):
-            dp[1] = 2
-        else:
-            dp[1] = 1
         if len(s) == 2:
-            return dp[1]
-        for idx in range(2, len(s)):
-            if s[idx] == '0':
-                if s[idx - 1] == '0' or s[idx - 1] > '2':
-                    return 0
-                dp[idx] = dp[idx - 2]
-            elif s[idx - 1] == '1' or (s[idx - 1] == '2' and s[idx] < '7'):
-                dp[idx] = dp[idx - 1] + dp[idx - 2]
-            else:
-                dp[idx] = dp[idx - 1]
-        return dp[len(s) - 1]
+            return 2 if 10 < int(s) <= 19 or 20 < int(s) <= 26 else 1
+        dp = [0 for _ in range(len(s) + 1)]
+        dp[0] = 1
+        dp[1] = 1
+        for i in range(2, len(s) + 1):
+            if s[i - 1] != '0':
+                dp[i] += dp[i - 1]
+            if 10 <= int(s[i - 2:i]) < 27:
+                dp[i] += dp[i - 2]
+        return dp[-1]
 
 
 s = Solution()
-print(s.numDecodings("226"))
+print(s.numDecodings("20"))

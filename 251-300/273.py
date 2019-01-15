@@ -23,7 +23,7 @@ class Solution(object):
     double = ['Zero', 'Ten', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
     tenth = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen',
              'Nineteen']
-    level = ['', 'Thousand', 'Million', 'Billion']
+    levels = ['', 'Thousand', 'Million', 'Billion']
 
     def numberToWords(self, num):
         """
@@ -37,27 +37,55 @@ class Solution(object):
         while num > 0:
             num, mod = divmod(num, 1000)
             str = self.hunderdToWords(mod)
-            if str != '':
-                res.append(str + ' ' + self.level[level])
+            if str:
+                res.append(str + '' + self.levels[level])
             level += 1
-        return ' '.join(reversed(res)).rstrip()
+        return ' '.join(res[::-1])
 
     def hunderdToWords(self, num):
         if num == 0:
             return ''
         res = []
         if num >= 100:
-            mod, num = divmod(num, 100)
-            res.append(self.single[mod] + ' Hundred')
+            quotient, num = divmod(num, 100)
+            res.append(self.single[quotient] + '' + 'Hundred')
         if num >= 20:
-            num, mod = divmod(num, 10)
-            res.append(self.double[num] + (' ' + self.single[mod] if mod != 0 else ''))
+            quotient, num = divmod(num, 10)
+            res.append(self.double[quotient])
         elif num >= 10:
-            num, mod = divmod(num, 10)
-            res.append(self.tenth[mod])
+            quotient, remainder = divmod(num, 10)
+            res.append(self.tenth[quotient] + ((' ' + self.single[remainder]) if remainder != 0 else ''))
         elif num > 0:
             res.append(self.single[num])
         return ' '.join(res)
+        #     if num == 0:
+        #         return 'Zero'
+        #     res = []
+        #     level = 0
+        #     while num > 0:
+        #         num, mod = divmod(num, 1000)
+        #         str = self.hunderdToWords(mod)
+        #         if str != '':
+        #             res.append(str + ' ' + self.level[level])
+        #         level += 1
+        #     return ' '.join(reversed(res)).rstrip()
+        #
+        # def hunderdToWords(self, num):
+        #     if num == 0:
+        #         return ''
+        #     res = []
+        #     if num >= 100:
+        #         mod, num = divmod(num, 100)
+        #         res.append(self.single[mod] + ' Hundred')
+        #     if num >= 20:
+        #         num, mod = divmod(num, 10)
+        #         res.append(self.double[num] + (' ' + self.single[mod] if mod != 0 else ''))
+        #     elif num >= 10:
+        #         num, mod = divmod(num, 10)
+        #         res.append(self.tenth[mod])
+        #     elif num > 0:
+        #         res.append(self.single[num])
+        #     return ' '.join(res)
 
 
 s = Solution()
